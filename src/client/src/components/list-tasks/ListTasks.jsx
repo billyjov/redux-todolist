@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { fetchTasks } from '../../actions/task';
 
 class ListTasks extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        this.props.fetchTasks();
+    }
+
     render() {
         return (
             <table className="table table-striped mt-5">
@@ -11,22 +23,27 @@ class ListTasks extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                    </tr>
+                
+                    {
+                       this.props.data ?
+                        this.props.data.map(task => {
+                            return (
+                                <tr key={task.id}>
+                                    <th scope="row">{task.id}</th>
+                                    <td>{task.title}</td>
+                                </tr>
+                            )
+                        }) : <tr><td>List is empty</td></tr>
+                    }
+
                 </tbody>
             </table>
         );
     }
 }
 
-export default ListTasks;
+const mapStateToProps = (state= {}) => ({
+    data: state.task.data
+})
+
+export default connect(mapStateToProps, { fetchTasks })(ListTasks);
