@@ -1,0 +1,15 @@
+{
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "username": "root",
+    "password": "",
+    "database": "redux-todos",
+    "synchronize": true,
+    "entities": [
+        "api/entities/*.ts"
+    ],
+    "cli": {
+        "entitiesDir": "api/entities"
+    }
+}
