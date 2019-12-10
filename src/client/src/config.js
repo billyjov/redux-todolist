@@ -10,7 +10,7 @@ const requests = {
     put: (url, body) =>
         axios.put(`${API_ROOT}${url}`, body).then(res => res),
     post: (url, body) =>
-        axios.post(`${API_ROOT}${url}`, body).then(res => res)
+        axios.post(`${API_ROOT}${url}`, body).then(res => res.data)
 };
 
 const Tasks = {
@@ -18,8 +18,8 @@ const Tasks = {
         requests.get('/tasks'),
     getById: (taskId) =>
         requests.get(`/tasks/${taskId}`),
-    create: (body) =>
-        requests.post('/tasks', body),
+    create: (task) =>
+        requests.post('/tasks', task),
     update: (task) =>
         requests.put('/tasks', task),
     delete: (taskId) =>
