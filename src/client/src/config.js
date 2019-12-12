@@ -21,9 +21,9 @@ const Tasks = {
     create: (task) =>
         requests.post('/tasks', task),
     update: (task) =>
-        requests.put('/tasks', task),
+        requests.put(`/tasks/${task.id}`, task),
     delete: (taskId) =>
-        requests.delete(`/tasks/${taskId}`),
+        requests.del(`/tasks/${taskId}`),
 };
 
 

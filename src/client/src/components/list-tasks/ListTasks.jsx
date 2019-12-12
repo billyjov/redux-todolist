@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import taskService from '../../config';
 
 import { fetchTasks } from '../../actions/task';
+import { EDIT_TASKS } from '../../constants/action-types';
 
 class ListTasks extends Component {
 
@@ -20,6 +22,8 @@ class ListTasks extends Component {
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Title</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Remove</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,6 +35,12 @@ class ListTasks extends Component {
                                 <tr key={task.id}>
                                     <th scope="row">{task.id}</th>
                                     <td>{task.title}</td>
+                                    <td>
+                                        <button className="btn btn-info" onClick={(e) => this.props.editTask(task, e, this.props.data)}>Edit</button>
+                                    </td>
+                                    <td>
+                                        <button className="btn btn-danger" onClick={() => this.props.removeTask(task)}>Remove</button>
+                                    </td>
                                 </tr>
                             )
                         }) : <tr><td>List is empty</td></tr>
@@ -46,4 +56,19 @@ const mapStateToProps = (state= {}) => ({
     data: state.task.data
 })
 
-export default connect(mapStateToProps, { fetchTasks })(ListTasks);
+const mapDispatchProps = (dispatch) => ({
+    fetchTasks: () => {
+        dispatch(fetchTasks())
+    },
+    editTask: (task, event, data) => {
+        dispatch({ type: EDIT_TASKS, payload: task, data: data })
+    },
+    removeTask: async (task) => {
+        const res = await taskService.Tasks.delete(task.id);
+        if (res) {
+            dispatch(fetchTasks())
+        }
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchProps)(ListTasks);
