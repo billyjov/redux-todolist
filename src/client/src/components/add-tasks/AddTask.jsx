@@ -42,7 +42,9 @@ class AddTask extends Component {
             ev.preventDefault();
             this.props.onSubmit(title, this.props.data);
         }
-        this.state = this.props;
+        this.state = {
+            title: ''
+        };
     }
 
     componentWillReceiveProps(props) {
@@ -59,7 +61,8 @@ class AddTask extends Component {
         const title = this.props.title;
 
         return (
-            <form onSubmit={this.submitForm(title)}>
+            // <form onSubmit={this.submitForm(title)}>
+            <form>
                 <div className="form-group">
                     <label htmlFor="title">Title</label>
                     <input
@@ -75,8 +78,8 @@ class AddTask extends Component {
                     <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                     <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
                 </div>
-                <button type="submit" className="btn btn-primary">Save Task</button>
-                <button onClick={() => this.props.onSubmitEdit(this.state.title, this.state.id, this.state.data)} className="btn btn-warning ml-5">Update Task</button>
+                <button onClick={this.submitForm(this.state.title)} className="btn btn-primary">Save Task</button>
+                <button disabled={!this.state.title} onClick={() => this.props.onSubmitEdit(this.state.title, this.state.id, this.state.data)} className="btn btn-warning ml-5">Update Task</button>
             </form>
         )
     }

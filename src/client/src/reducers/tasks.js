@@ -18,7 +18,6 @@ export default (state = {}, action) => {
             };
         case UPDATE_FIELD_TASK:
             return {
-                ...state,
                 [action.key]: action.value
             };
         case EDIT_TASKS: 
